@@ -6,12 +6,13 @@ import { usePatientStore } from "../store/store";
 
 export default function Form() {
 
-    const { register, handleSubmit, formState: { errors } } = useForm<DraftPatient>();
-    
-    const {addPatient} = usePatientStore()
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<DraftPatient>();
+
+    const { addPatient } = usePatientStore()
 
     function registePatient(data: DraftPatient) {
-        addPatient(data)
+        addPatient(data);
+        reset();
     }
 
     return (
@@ -23,7 +24,8 @@ export default function Form() {
                     placeholder="Nombre del Paciente"
                     className="border-b py-2 border-b-blue-700/50 w-full"
                     {...register("name", {
-                        required: "Campo Nombre Obligatorio"
+                        required: "Campo Nombre Obligatorio",
+                        validate: value => value.trim() !== "" || "Campo Obligatorio"
                     })}
                 />
                 {errors.name &&
@@ -40,7 +42,8 @@ export default function Form() {
                     placeholder="Email del Paciente"
                     className="border-b py-2 border-b-blue-700/50 w-full"
                     {...register("email", {
-                        required: "Campo Email Obligatorio"
+                        required: "Campo Email Obligatorio",
+                        validate: value => value.trim() !== "" || "Campo Obligatorio"
                     })} />
                 {errors.email &&
                     <Error>
@@ -56,7 +59,8 @@ export default function Form() {
                     placeholder="Numero Celular"
                     className="border-b py-2 border-b-blue-700/50 w-full"
                     {...register("phone", {
-                        required: "Campo Telefono Obligatorio"
+                        required: "Campo Telefono Obligatorio",
+                        validate: value => value.trim() !== "" || "Campo Obligatorio"
                     })} />
                 {errors.phone &&
                     <Error>
@@ -86,7 +90,8 @@ export default function Form() {
                     className="border-b py-2 border-b-blue-700/50 w-full"
                     placeholder="symptoms que padece"
                     {...register("symptoms", {
-                        required: "Campo sintomas Obligatorio"
+                        required: "Campo sintomas Obligatorio",
+                        validate: value => value.trim() !== "" || "Campo Obligatorio"
                     })} />
                 {errors.symptoms &&
                     <Error>
