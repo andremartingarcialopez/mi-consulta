@@ -1,17 +1,21 @@
 import { create, } from "zustand";
 import type { DraftPatient, Patient } from "../types/types";
 import { v4 } from "uuid";
+import { devtools } from "zustand/middleware";
 
 
 
 type usePatientStoreProps = {
-    patients: Patient[]
+    patients: Patient[],
+    editID: Patient["id"]
     addPatient: (data: DraftPatient) => void
     removePatient: (id: Patient["id"]) => void
+    getEditID: (id: Patient["id"]) => void
 }
 
-export const usePatientStore = create<usePatientStoreProps>((set) => ({
+export const usePatientStore = create<usePatientStoreProps>()(devtools((set) => ({
     patients: [],
+    editID: "",
 
     addPatient: (data) => {
         set((state) => ({
@@ -25,6 +29,12 @@ export const usePatientStore = create<usePatientStoreProps>((set) => ({
             ...state,
             patients: state.patients.filter(patient => patient.id !== id)
         }))
+    },
+
+    getEditID: (id) => {
+        set(() => ({
+            editID: id
+        }))
     }
-    
-}));
+
+})));

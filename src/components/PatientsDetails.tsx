@@ -8,7 +8,7 @@ type PatientsDetailsProps = {
 
 export default function PatientsDetails({ patient }: PatientsDetailsProps) {
 
-    const {removePatient} = usePatientStore()
+    const {removePatient, getEditID} = usePatientStore()
 
     return (
         <div className="border-b border-b-blue-700/60 flex flex-col space-y-2 py-2">
@@ -20,7 +20,7 @@ export default function PatientsDetails({ patient }: PatientsDetailsProps) {
             <PatientDetailsIteam label="Sintomas" infoValue={patient.symptoms} />
 
             <div className="flex flex-col lg:flex-row lg:justify-between text-white font-semibold">
-                <button className="bg-gray-700/70 lg:w-30 rounded-lg p-1 hover:bg-gray-700/80 cursor-pointer mb-2">Editar</button>
+                <button onClick={() => getEditID(patient.id)} className="bg-gray-700/70 lg:w-30 rounded-lg p-1 hover:bg-gray-700/80 cursor-pointer mb-2">Editar</button>
 
                 <button onClick={() => removePatient(patient.id)} className="bg-red-700/70 lg:w-30 rounded-lg p-1 hover:bg-red-700/80 cursor-pointer mb-2">Eliminar</button>
             </div>
