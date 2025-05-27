@@ -58,13 +58,13 @@ export default function Form() {
     }
 
     return (
-        <form onSubmit={handleSubmit(registePatient)} className="p-10 bg-white rounded-lg border-3 border-blue-600/50 flex flex-col space-y-4 lg:w-120 mx-2 shadow-lg shadow-blue-700/50 ">
+        <form onSubmit={handleSubmit(registePatient)} className="p-10 bg-white rounded-lg border-3 border-pink-400/50 flex flex-col space-y-4 lg:w-120 mx-2 shadow-lg shadow-pink-500/40 ">
             <div>
-                <label className="font-semibold" htmlFor="name">Nombre:</label>
+                <label className="font-semibold text-gray-700" htmlFor="name">Nombre:</label>
                 <input type="text"
                     id="name"
                     placeholder="Nombre del Paciente"
-                    className="border-b py-2 border-b-blue-700/50 w-full"
+                    className="border-b py-2 border-b-pink-500/50 w-full"
                     {...register("name", {
                         required: "Campo Nombre Obligatorio",
                         validate: value => value.trim() !== "" || "Campo Obligatorio"
@@ -78,14 +78,18 @@ export default function Form() {
             </div>
 
             <div>
-                <label className="font-semibold" htmlFor="email">Email:</label>
+                <label className="font-semibold text-gray-700" htmlFor="email">Email:</label>
                 <input type="email"
                     id="email"
                     placeholder="Email del Paciente"
-                    className="border-b py-2 border-b-blue-700/50 w-full"
+                    className="border-b py-2 border-b-pink-500/50 w-full"
                     {...register("email", {
                         required: "Campo Email Obligatorio",
-                        validate: value => value.trim() !== "" || "Campo Obligatorio"
+                        validate: value => value.trim() !== "" || "Campo Obligatorio",
+                        pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: 'Email No Válido'
+                        }
                     })} />
                 {errors.email &&
                     <Error>
@@ -95,14 +99,18 @@ export default function Form() {
             </div>
 
             <div>
-                <label className="font-semibold" id="phone" htmlFor="phone">Telefono:</label>
+                <label className="font-semibold text-gray-700" id="phone" htmlFor="phone">Telefono:</label>
                 <input type="tel"
                     id="phone"
                     placeholder="Numero Celular"
-                    className="border-b py-2 border-b-blue-700/50 w-full"
+                    className="border-b py-2 border-b-pink-500/50 w-full"
                     {...register("phone", {
                         required: "Campo Telefono Obligatorio",
-                        validate: value => value.trim() !== "" || "Campo Obligatorio"
+                        validate: value => value.trim() !== "" || "Campo Obligatorio",
+                        pattern: {
+                            value: /^[0-9]{10}$/,
+                            message: "Debe tener 10 dígitos"
+                        }
                     })} />
                 {errors.phone &&
                     <Error>
@@ -112,10 +120,10 @@ export default function Form() {
             </div>
 
             <div>
-                <label className="font-semibold" htmlFor="date">Fecha:</label>
+                <label className="font-semibold text-gray-700" htmlFor="date">Fecha:</label>
                 <input type="date"
                     id="date"
-                    className="border-b py-2 border-b-blue-700/50 w-full"
+                    className="border-b py-2 border-b-pink-500/50 w-full"
                     {...register("date", {
                         required: "Campo Fecha Obligatorio"
                     })} />
@@ -127,10 +135,10 @@ export default function Form() {
             </div>
 
             <div>
-                <label id="symptoms" className="font-semibold" htmlFor="symptoms">Sintomas:</label>
+                <label id="symptoms" className="font-semibold text-gray-700" htmlFor="symptoms">Sintomas:</label>
                 <textarea id="symptoms"
-                    className="border-b py-2 border-b-blue-700/50 w-full"
-                    placeholder="symptoms que padece"
+                    className="border-b py-2 border-b-pink-500/50 w-full"
+                    placeholder="Razon de la cita"
                     {...register("symptoms", {
                         required: "Campo sintomas Obligatorio",
                         validate: value => value.trim() !== "" || "Campo Obligatorio"
@@ -142,7 +150,7 @@ export default function Form() {
                 }
             </div>
 
-            <input type="submit" value={editID ? "Editar Paciente" : "Agregar Paciente"} className="bg-blue-700/70 text-white uppercase font-semibold p-2 rounded-lg borde border-blue-700 hover:bg-blue-700/90 cursor-pointer" />
+            <input type="submit" value={editID ? "Editar Paciente" : "Agregar Paciente"} className="bg-pink-500/50 text-white uppercase font-semibold  p-2 rounded-lg borde border-pink-700 hover:bg-pink-500/80 cursor-pointer" />
 
         </form>
     )
