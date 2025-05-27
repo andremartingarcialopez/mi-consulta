@@ -3,7 +3,7 @@ import Error from "./Error";
 import type { DraftPatient } from "../types/types";
 import { usePatientStore } from "../store/store";
 import { useEffect } from "react";
-
+import { Bounce, toast } from 'react-toastify';
 
 export default function Form() {
 
@@ -28,9 +28,31 @@ export default function Form() {
     function registePatient(data: DraftPatient) {
 
         if (editID) {
-            editPatient(data)
+            editPatient(data);
+            toast.success('Paciente Editado con Exito!!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                transition: Bounce,
+            });
         } else {
             addPatient(data);
+            toast.success('Paciente Agregado con Exito!!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                transition: Bounce,
+            });
         }
         reset();
     }

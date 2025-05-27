@@ -1,5 +1,6 @@
 import Form from "./components/Form"
 import PatientsTracker from "./components/PatientsTracker"
+import { ToastContainer } from 'react-toastify';
 
 
 function App() {
@@ -16,6 +17,8 @@ function App() {
         <PatientsTracker />
 
       </div>
+
+      <ToastContainer/>
     </>
 
 
