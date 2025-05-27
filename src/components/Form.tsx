@@ -2,21 +2,41 @@ import { useForm } from "react-hook-form";
 import Error from "./Error";
 import type { DraftPatient } from "../types/types";
 import { usePatientStore } from "../store/store";
+import { useEffect } from "react";
 
 
 export default function Form() {
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<DraftPatient>();
+    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<DraftPatient>();
 
-    const { addPatient } = usePatientStore()
+    const { addPatient, editID, patients, editPatient } = usePatientStore();
+
+    useEffect(() => {
+        if (editID) {
+            const patientEdit = patients.filter(function (patient) {
+                return patient.id == editID;
+            })[0];
+            setValue("name", patientEdit.name);
+            setValue("email", patientEdit.email);
+            setValue("phone", patientEdit.phone);
+            setValue("date", patientEdit.date);
+            setValue("symptoms", patientEdit.symptoms);
+
+        }
+    }, [editID])
 
     function registePatient(data: DraftPatient) {
-        addPatient(data);
+
+        if (editID) {
+            editPatient(data)
+        } else {
+            addPatient(data);
+        }
         reset();
     }
 
     return (
-        <form onSubmit={handleSubmit(registePatient)} className="p-10 bg-white rounded-lg border-3 border-blue-600/50 flex flex-col space-y-4 lg:w-120 mx-2 shadow-lg shadow-blue-700/50">
+        <form onSubmit={handleSubmit(registePatient)} className="p-10 bg-white rounded-lg border-3 border-blue-600/50 flex flex-col space-y-4 lg:w-120 mx-2 shadow-lg shadow-blue-700/50 ">
             <div>
                 <label className="font-semibold" htmlFor="name">Nombre:</label>
                 <input type="text"
@@ -100,7 +120,7 @@ export default function Form() {
                 }
             </div>
 
-            <input type="submit" value={"Registrar Paciente"} className="bg-blue-700/70 text-white uppercase font-semibold p-2 rounded-lg borde border-blue-700 hover:bg-blue-700/90 cursor-pointer" />
+            <input type="submit" value={editID ? "Editar Paciente" : "Agregar Paciente"} className="bg-blue-700/70 text-white uppercase font-semibold p-2 rounded-lg borde border-blue-700 hover:bg-blue-700/90 cursor-pointer" />
 
         </form>
     )

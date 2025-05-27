@@ -11,6 +11,11 @@ type usePatientStoreProps = {
     addPatient: (data: DraftPatient) => void
     removePatient: (id: Patient["id"]) => void
     getEditID: (id: Patient["id"]) => void
+    editPatient: (draftPatient: DraftPatient) => void
+}
+
+function createPatientID(draftPatient: DraftPatient): Patient {
+    return { ...draftPatient, id: v4() }
 }
 
 export const usePatientStore = create<usePatientStoreProps>()(devtools((set) => ({
@@ -18,9 +23,10 @@ export const usePatientStore = create<usePatientStoreProps>()(devtools((set) => 
     editID: "",
 
     addPatient: (data) => {
+        const newPatient = createPatientID(data)
         set((state) => ({
             ...state,
-            patients: [...state.patients, { ...data, id: v4() }]
+            patients: [...state.patients, newPatient]
         }));
     },
 
@@ -34,6 +40,20 @@ export const usePatientStore = create<usePatientStoreProps>()(devtools((set) => 
     getEditID: (id) => {
         set(() => ({
             editID: id
+        }))
+    },
+
+    editPatient: (draftPatient) => {
+        set((state) => ({
+            ...state,
+            patients: state.patients.map(function (patient) {
+                if (patient.id == state.editID) {
+                    return { ...draftPatient, id: state.editID }
+                } else {
+                    return patient
+                }
+            }),
+            editID: ""
         }))
     }
 
